@@ -19,17 +19,103 @@ class LoginViewController: UIViewController {
 
     // TODO: instantiate the views needed for your project
     
+    let smallView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    let loginTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Username"
+        textField.backgroundColor = UIColor.white
+        return textField
+    }()
+    let passwordTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Password"
+        textField.backgroundColor = UIColor.white
+        return textField
+    }()
+    let loginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Login", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Avenir", size: 30)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = Constants.backgroundColor
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(login), for: .touchDown)
+        return button
+        
+    }()
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = NSTextAlignment.center
+        label.text = "Welcome"
+        label.font = UIFont(name: "Avenir", size: 32)
+        label.textColor = UIColor.white
+        return label
+    }()
+    let frameWidth = UIScreen.main.bounds.width
+    let frameHeight = UIScreen.main.bounds.height
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Constants.backgroundColor
         
         // TODO: Add your views either as subviews of `view` or subviews of each other using `addSubview`
-        
+        view.addSubview(smallView)
+        smallView.addSubview(loginTextField)
+        smallView.addSubview(passwordTextField)
+        smallView.addSubview(loginButton)
+        view.addSubview(titleLabel)
         // TODO: layout your views using frames or AutoLayout
+        loginTextField.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        smallView.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [
+            smallView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            smallView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            smallView.heightAnchor.constraint(equalToConstant: frameHeight/3),
+            smallView.widthAnchor.constraint(equalToConstant: frameWidth - 20),
+//            btn.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+//                                         constant: 8),
+//            btn.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+//                                          constant: 8),
+            loginButton.bottomAnchor.constraint(equalTo: smallView.bottomAnchor , constant: -10),
+            loginButton.heightAnchor.constraint(equalToConstant: frameHeight/12),
+            loginButton.widthAnchor.constraint(equalToConstant: frameWidth/3),
+            loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//
+            passwordTextField.bottomAnchor.constraint(equalTo: loginButton.topAnchor , constant: -10),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
+            passwordTextField.leadingAnchor.constraint(equalTo: smallView.leadingAnchor, constant: 10),
+//            passwordTextField.widthAnchor.constraint(equalToConstant: frameWidth/2),
+            passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -10),
+            loginTextField.heightAnchor.constraint(equalToConstant: 40),
+            loginTextField.leadingAnchor.constraint(equalTo: smallView.leadingAnchor, constant: 10),
+            // loginTextField.widthAnchor.constraint(equalToConstant: frameWidth/2),
+            loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: smallView.topAnchor, constant: -30),
+            titleLabel.leadingAnchor.constraint(equalTo: smallView.leadingAnchor, constant: 0),
+            titleLabel.heightAnchor.constraint(equalToConstant: frameHeight/7)
+            
+        ]
+        NSLayoutConstraint.activate(constraints)
+        
     }
     
     // TODO: create an IBAction for your login button
-    
+    @IBAction func login(sender: UIButton) {
+        let password = passwordTextField.text
+        let username = loginTextField.text
+        authenticateUser(username: username, password: password)
+    }
     
     
     
